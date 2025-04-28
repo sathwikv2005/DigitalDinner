@@ -8,7 +8,7 @@ export default function NavBar() {
 			<div className="navbar">
 				<div className="navbar--title">
 					<Link className="navbar--title--link sour-gummy" to="/">
-						Digital Diner
+						Digital Dinner
 					</Link>
 				</div>
 				<div className="nav--right-items inter">
