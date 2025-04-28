@@ -53,7 +53,6 @@ export default function Home() {
 		}
 		async function getCart() {
 			let cartData = await getCache('cart')
-			console.log(cartData)
 			if (cartData) {
 				setCart(new Set(cartData.obj))
 			}

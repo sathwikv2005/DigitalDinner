@@ -3,9 +3,11 @@ import { MdOutlineDeleteForever } from 'react-icons/md'
 
 import style from '../../css/home.module.css'
 import menuDisplayStyle from '../../css/menuDisplay.module.css'
+import { useState } from 'react'
 
 export default function DisplayMenu({ menuData, active, cart, addCart, deleteCart }) {
 	function handleClick(item) {
+		console.log(item)
 		if (cart.has(item._id)) {
 			deleteCart(item._id)
 		} else {
