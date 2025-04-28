@@ -36,17 +36,30 @@ export default function CartSummary({ total, tax, grandTotal }) {
 			addCache('user', user)
 		}
 
-		const cartCache = await getCache('cartItems')
-		const cartItems = cartCache?.obj || []
+		const cartItemCache = getCache('cartItems') // items with quantity
+		const cartCache = getCache('cart') // all item ids
 
-		if (cartItems.length === 0) {
+		const cartItems = cartItemCache?.obj || []
+		const cartIds = cartCache?.obj || []
+
+		if (cartIds.length === 0) {
 			alert('Your cart is empty!')
 			return
 		}
 
-		const response = await checkOut(user, cartItems)
+		// Build finalCartItems with quantity
+		const finalCartItems = cartIds.map((id) => {
+			const found = cartItems.find((item) => item._id === id)
+			return {
+				_id: id,
+				quantity: found ? found.quantity : 1, // use existing quantity if available, else 1
+			}
+		})
+
+		const response = await checkOut(user, finalCartItems)
 		if (response) {
 			updateCache('cartItems', [])
+			updateCache('cart', [])
 			navigate('/orders')
 		} else {
 			alert('Failed to place order. Please try again.')

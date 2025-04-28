@@ -22,7 +22,7 @@ export default function CartItems({ menuItems, handleClick, cart }) {
 	}, [])
 
 	function handleInput(id, quantity) {
-		if (quantity < 1) quantity = 1 // minimum quantity 1
+		if (isNaN(quantity) || quantity < 1) quantity = 1 // minimum quantity 1
 
 		setCartItems((prev) => {
 			let updated = [...prev]
@@ -108,9 +108,8 @@ function CartList({ menuItems, handleClick, cart, cartItems, handleInput }) {
 									<input
 										type="number"
 										className={style.input}
-										min="1"
 										value={getQuantity(item._id)}
-										onChange={(e) => handleInput(item._id, parseInt(e.target.value) || 1)}
+										onChange={(e) => handleInput(item._id, parseInt(e.target.value))}
 									/>
 								</div>
 								<div
