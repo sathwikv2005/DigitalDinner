@@ -3,7 +3,9 @@ import User from '../../schemas/user.js'
 
 export async function getOrders(req, res) {
 	const { phone } = req.query
-
+	if (!phone) {
+		return res.status(400).json({ message: 'Phone number is required' })
+	}
 	try {
 		const user = await User.findOne({ phone })
 		if (!user) {
