@@ -6,6 +6,10 @@ const orderSchema = new mongoose.Schema({
 		ref: 'User',
 		required: true,
 	},
+	cost: {
+		type: Number,
+		required: true,
+	},
 	items: [
 		{
 			_id: {

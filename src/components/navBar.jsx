@@ -12,6 +12,7 @@ export default function NavBar() {
 					</Link>
 				</div>
 				<div className="nav--right-items inter">
+					<Link to="/orders">Orders</Link>
 					<Link to="/menu">Menu</Link>
 					<Link to="/cart" className="navbar--cart--a">
 						<BsCart3 className="navbar--cart--icon" />

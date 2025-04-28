@@ -19,6 +19,8 @@ export async function placeOrder(req, res) {
 		}
 
 		const items = []
+		let totalCost = 0
+
 		for (let cartItem of cartItems) {
 			const menuItem = await MenuItem.findById(cartItem._id)
 			if (!menuItem) {
@@ -29,17 +31,21 @@ export async function placeOrder(req, res) {
 				_id: menuItem._id,
 				quantity: cartItem.quantity,
 			})
+
+			totalCost += menuItem.price * cartItem.quantity
 		}
 
 		const order = new Order({
 			userId: existingUser._id,
 			items: items,
+			cost: totalCost,
 		})
+
 		await order.save()
 
 		res.status(201).json({ message: 'Order placed successfully', order })
 	} catch (error) {
-		console.error(error)
+		console.error('Error placing order:', error)
 		res.status(500).json({ message: 'Internal server error' })
 	}
 }

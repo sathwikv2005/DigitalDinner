@@ -28,12 +28,10 @@ export default function Cart() {
 		}
 		async function callGetMenuItems() {
 			const data = await getMenuItems()
-			console.log(data)
 			setMenuItems(data)
 		}
 		async function getCart() {
 			let cartData = await getCache('cart')
-			console.log(cartData)
 			if (cartData) {
 				setCart(new Set(cartData.obj))
 			}

@@ -7,7 +7,6 @@ import { useState } from 'react'
 
 export default function DisplayMenu({ menuData, active, cart, addCart, deleteCart }) {
 	function handleClick(item) {
-		console.log(item)
 		if (cart.has(item._id)) {
 			deleteCart(item._id)
 		} else {

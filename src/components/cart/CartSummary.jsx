@@ -4,11 +4,14 @@ import { addCache, getCache, updateCache } from '../../util/cache'
 
 import { checkOut } from '../../util/api/checkOut'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function CartSummary({ total, tax, grandTotal }) {
 	const navigate = useNavigate()
+	const [loading, setLoading] = useState(false)
 
 	async function handleCheckout() {
+		setLoading(true)
 		let userCache = await getCache('user')
 		let user = userCache?.obj || null
 
@@ -57,6 +60,7 @@ export default function CartSummary({ total, tax, grandTotal }) {
 		})
 
 		const response = await checkOut(user, finalCartItems)
+		setLoading(false)
 		if (response) {
 			updateCache('cartItems', [])
 			updateCache('cart', [])
@@ -74,7 +78,7 @@ export default function CartSummary({ total, tax, grandTotal }) {
 				<div className={style.grandTotal}>
 					Grand Total: <span>₹{grandTotal.toFixed(2)}</span>
 				</div>
-				<div className={style.checkout} onClick={handleCheckout}>
+				<div className={`${style.checkout} ${loading ? 'loading' : ''}`} onClick={handleCheckout}>
 					Order <IoBagCheckOutline className={style.icon} />
 				</div>
 			</div>
