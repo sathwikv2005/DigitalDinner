@@ -7,6 +7,8 @@ const port = process.env.PORT || 6700
 
 // app.use(express.static(path.join(__dirname, 'build')))
 
+app.use(express.json())
+
 app.use('/api', apiRoutes)
 
 app.listen(port, async () => {

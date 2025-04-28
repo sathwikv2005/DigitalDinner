@@ -1,12 +1,13 @@
 import style from '../../css/cart.module.css'
 import { IoBagCheckOutline } from 'react-icons/io5'
-import { addCache, getCache } from '../../util/cache'
+import { addCache, getCache, updateCache } from '../../util/cache'
 
 import { checkOut } from '../../util/api/checkOut'
 import { useNavigate } from 'react-router-dom'
 
 export default function CartSummary({ total, tax, grandTotal }) {
 	const navigate = useNavigate()
+
 	async function handleCheckout() {
 		let userCache = await getCache('user')
 		let user = userCache?.obj || null
@@ -43,9 +44,13 @@ export default function CartSummary({ total, tax, grandTotal }) {
 			return
 		}
 
-		await checkOut(user, cartItems).then(() => {
+		const response = await checkOut(user, cartItems)
+		if (response) {
+			updateCache('cartItems', [])
 			navigate('/orders')
-		})
+		} else {
+			alert('Failed to place order. Please try again.')
+		}
 	}
 
 	return (
